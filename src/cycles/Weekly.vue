@@ -4,7 +4,7 @@
             <a-checkbox v-for="(name, i) in weekdayNames" :value="i+1">{{ name }}</a-checkbox>
         </a-checkbox-group>
     </a-form-item>
-    <a-form-item :wrapper-col="{span: 2}" label="开始于">
+    <a-form-item :wrapper-col="{span: 6}" label="开始于">
         <a-time-picker v-model:value="startsAtLocal" format="HH:mm" size="small"/>
     </a-form-item>
 </template>

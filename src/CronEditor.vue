@@ -1,6 +1,6 @@
 <template>
     <a-form :label-col="{span: 4}" :wrapper-col="{span: 20}" size="small">
-        <a-form-item label="频率" :wrapper-col="{span: 2}">
+        <a-form-item label="频率" :wrapper-col="{span: 6}">
             <a-select v-model:value="modeKey" size="small">
                 <a-select-option v-for="mode in modes" :value="mode.key">{{ mode.name }}</a-select-option>
             </a-select>
@@ -19,7 +19,7 @@ const props = defineProps({
     value: String
 })
 
-const localValue = ref(props.value)
+const localValue = ref(props.value || '')
 
 const emit = defineEmits([ 'update:value' ])
 

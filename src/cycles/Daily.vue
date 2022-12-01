@@ -3,7 +3,7 @@
         <a-radio v-model:checked="isEvery" size="small">每天（含周末）</a-radio>
         <a-radio v-model:checked="isWeekday" size="small">每天（非周末）</a-radio>
     </a-form-item>
-    <a-form-item :wrapper-col="{span: 2}" label="开始于">
+    <a-form-item :wrapper-col="{span: 6}" label="开始于">
         <a-time-picker v-model:value="startsAtLocal" format="HH:mm" size="small"/>
     </a-form-item>
 </template>

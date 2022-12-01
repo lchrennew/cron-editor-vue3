@@ -1,8 +1,8 @@
 <template>
-    <a-form-item label="每" :wrapper-col="{span: 2}">
+    <a-form-item label="每" :wrapper-col="{span: 6}">
         <a-input-number v-model:value="everyLocal" :min="1" :max="999" addon-after="个月" size="small"/>
     </a-form-item>
-    <a-form-item :wrapper-col="{span: 3}">
+    <a-form-item :wrapper-col="{span: 10}">
         <template #label>
             <a-radio v-model:checked="isDayOfMonth" size="small"/>
             日期
@@ -23,7 +23,7 @@
             </a-input-number>
         </a-input-group>
     </a-form-item>
-    <a-form-item>
+    <a-form-item :wrapper-col="{span: 10}">
         <template #label>
             <a-radio v-model:checked="isDayOfWeek" size="small"/>
             星期
@@ -33,12 +33,12 @@
                 <a-select-option v-for="i in 5" :value="`#${i}`">第 {{ i }} 个</a-select-option>
                 <a-select-option value="L">最后一个</a-select-option>
             </a-select>
-            <a-select v-model:value="weekdayLocal" size="small">
-                <a-select-option v-for="(name, i) in weekdayNames" :value="i+1">周{{ name }}</a-select-option>
+            <a-select v-model:value="weekdayLocal" size="small" style="width: 97.6px">
+                <a-select-option v-for="(name, i) in weekdayNames" :value="`${i+1}`">周{{ name }}</a-select-option>
             </a-select>
         </a-input-group>
     </a-form-item>
-    <a-form-item :wrapper-col="{span: 2}" label="开始于">
+    <a-form-item :wrapper-col="{span: 6}" label="开始于">
         <a-time-picker v-model:value="startsAtLocal" format="HH:mm" size="small"/>
     </a-form-item>
 </template>
@@ -80,9 +80,10 @@ const isDayOfWeek = computed({
 
 const dayOfMonth = computed(() => match.value.groups.day)
 const dayOfMonthLocal = ref(dayOfMonth.value)
+watch(dayOfMonthLocal, (value, oldValue) => value || (dayOfMonthLocal.value = oldValue))
 
 const weekday = computed(() => match.value.groups.weekday)
-const weekdayLocal = ref(weekday.value || 1)
+const weekdayLocal = ref(weekday.value || '1')
 const nth = computed(() => match.value.groups.nth || `#1`)
 const nthLocal = ref(nth.value)
 
@@ -91,6 +92,7 @@ const lastDayOfMonth = ref(last.value)
 
 const every = computed(() => Number(match.value.groups.every) || 1)
 const everyLocal = ref(every.value)
+watch(everyLocal, (value, oldValue) => value || (everyLocal.value = oldValue))
 
 const startsAt = computed(() => {
     const { hour = 0, minute = 0 } = match.value?.groups ?? {}
@@ -103,6 +105,8 @@ const startsAtString = computed(() => startsAtLocal.value?.format('m H') || '0 0
 watch(startsAtLocal, (value, oldValue) => value || (startsAtLocal.value = oldValue))
 
 const update = () =>
+    everyLocal.value &&
+    (dayOfMonthLocal.value || !dayOfMonthLocal.value) &&
     startsAtLocal.value &&
     emit(
         'update:value',
